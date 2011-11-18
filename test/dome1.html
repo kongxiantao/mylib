@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+	<title>test</title>
+	<link href="../console/assets/jet.reset.css" rel="stylesheet" type="text/css" />
+	
+	
+</head>
+
+<body>
+	
+	<h1 id="h1"> createTextRange and createRange </h1>
+	
+
+	<input id="txt_value" type="text" name="txtTest" value="明·罗贯中《三国演义》第二十一回 操曰:“夫英雄者，胸怀大志，腹有良谋，有包藏宇宙之机，吞吐天地之志者也。" size="100"/>
+	<br/>
+
+	移动光标到第<input id="txt_num" type="text" name="txtNum" value="3" />个位置
+
+	<input type="button" name="btnMove" value="移动" onclick="moveCursor()" /> 
+	
+	
+	
+	
+	
+	
+	
+	<script type="text/javascript" src="../console/jet.base.js"></script>
+	<script type="text/javascript" src="../console/jet.string.js"></script>
+	<script type="text/javascript" src="../console/jet.http.js"></script>
+	<script type="text/javascript" src="../console/jet.console.js"></script>
+	<script>var J = new Jet();J.console.enable();</script>		
+	<script>		
+		function moveCursor(){
+			var txt_value = document.getElementById('txt_value');
+				J.out(txt_value.value);
+			var txt_num = document.getElementById('txt_num').value;
+				J.out(txt_num);
+				if( isNaN(txt_num) ){
+					J.out("请输入一个数字");
+	　　　　　		return false;
+				}
+				
+			if( txt_value.createTextRange ){
+				var range = txt_value.createTextRange();
+				//range.move('character',txt_num);
+				
+				range.collapse(true);
+				range.moveStart('character', txt_num );
+				range.moveEnd('character', 10 );
+				
+				range.select();
+				
+				J.out('选中第3到10个字符的内容');
+			}else if( txt_value.setSelectionRange){
+				txt_value.focus();
+				txt_value.setSelectionRange(3,13);
+				J.out('选中第3到13个字符的内容');
+			}
+
+		}
+	</script>
+
+</body>
+</html>

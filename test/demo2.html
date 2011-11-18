@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+	<title>test</title>
+	<link href="../console/assets/jet.reset.css" rel="stylesheet" type="text/css" />
+	
+	
+</head>
+
+<body>
+
+	<textarea name="txtBox" rows="7" cols="50" id="txtBox">
+	千里之外
+	歌手：周杰伦/费玉清 专辑：依然范特西 
+
+	屋檐如悬崖风铃如沧海我等燕归来
+	时间被安排演一场意外你悄然走开
+	故事在城外浓雾散不开看不清对白
+	你听不出来风声不存在是我在感慨
+
+	梦醒来是谁在窗台把结局打开
+	那薄如蝉翼的未来经不起谁来拆
+	我送你离开千里之外你无声黑白
+	沉默年代或许不该太遥远的相爱
+	我送你离开天涯之外你是否还在
+	琴声何来生死难猜用一生去等待
+
+	闻泪声入林寻梨花白只得一行青苔
+	天在山之外雨落花台我两鬓斑白
+	闻泪声入林寻梨花白只得一行青苔
+	天在山之外雨落花台我等你来
+	</textarea>
+	<br/>
+
+
+指定选择范围: 
+
+<input type="text" size="5" id="txtStart" value="3" />-- <input type="text" value="20" id="txtEnd" /> 
+<input type="button" value="选择" onclick="selectText()" /> 
+
+	
+	
+	
+	
+	<script type="text/javascript" src="../console/jet.base.js"></script>
+	<script type="text/javascript" src="../console/jet.string.js"></script>
+	<script type="text/javascript" src="../console/jet.http.js"></script>
+	<script type="text/javascript" src="../console/jet.console.js"></script>
+	<script>var J = new Jet();J.console.enable();</script>		
+	<script>	
+	
+		function selectText(){
+			
+			var txtStart = document.getElementById('txtStart').value;
+			var txtEnd = document.getElementById('txtEnd').value;
+			
+			if( isNaN(txtStart) || isNaN(txtEnd)  ){
+				J.out("请输入数字!");
+		　 　　 return;
+			}
+			
+			if( txtStart*1 >= txtEnd*1 ){
+				J.out("开始位置必须比结束位置小");
+		　　　 	return;
+			}
+		　 
+			var textarea = document.getElementById('txtBox');
+			if( textarea.createTextRange  ){
+				var range = textarea.createTextRange();
+				
+				range.collapse(true);
+				range.moveStart('character', txtStart );
+				range.moveEnd('character', txtEnd );
+				range.select();
+			}else if( textarea.setSelectionRange ){
+				textarea.focus();
+				textarea.setSelectionRange( txtStart,txtEnd );				
+			}　 
+			J.out('选中第'+txtStart+'到'+txtEnd+'个字符的内容');　 　 　 　　 
+		} 
+
+	</script>
+
+</body>
+</html>

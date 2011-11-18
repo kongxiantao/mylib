@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+	<title>test</title>
+	<link href="../console/assets/jet.reset.css" rel="stylesheet" type="text/css" />
+	
+	
+</head>
+
+<body>
+
+	<textarea name="txtBox" rows="7" cols="50" id="txtBox">
+	千里之外
+	歌手：周杰伦/费玉清 专辑：依然范特西 
+
+	屋檐如悬崖风铃如沧海我等燕归来
+	时间被安排演一场意外你悄然走开
+	故事在城外浓雾散不开看不清对白
+	你听不出来风声不存在是我在感慨
+
+	梦醒来是谁在窗台把结局打开
+	那薄如蝉翼的未来经不起谁来拆
+	我送你离开千里之外你无声黑白
+	沉默年代或许不该太遥远的相爱
+	我送你离开天涯之外你是否还在
+	琴声何来生死难猜用一生去等待
+
+	闻泪声入林寻梨花白只得一行青苔
+	天在山之外雨落花台我两鬓斑白
+	闻泪声入林寻梨花白只得一行青苔
+	天在山之外雨落花台我等你来
+	</textarea>
+	<br/>
+
+
+<input type="text" value="" id="search" /> 
+<input type="button" value="搜索" onclick="findText()" /> 
+	
+	
+	
+	
+	<script type="text/javascript" src="../console/jet.base.js"></script>
+	<script type="text/javascript" src="../console/jet.string.js"></script>
+	<script type="text/javascript" src="../console/jet.http.js"></script>
+	<script type="text/javascript" src="../console/jet.console.js"></script>
+	<script>var J = new Jet();J.console.enable();</script>		
+	<script>	
+	
+		
+		function findText(){
+			var str = document.getElementById('search').value;
+			var textarea = document.getElementById('txtBox');
+			
+			var t_value = textarea.value;
+			var start = t_value.indexOf(str);
+			var end = t_value.indexOf(str)*1+str.length;
+			
+			J.out( 'start:'+start );
+			J.out( 'end:'+end );
+			
+			if( start < 0 ){
+				J.out( '好像有回车');
+				return;
+			}
+			//indexOf 计算的位置 和 moveStart 的位置 不一样 在IE中
+			if( textarea.createTextRange  ){
+				var range = textarea.createTextRange();
+				range.collapse(true);
+				range.moveStart('character', start );
+				range.moveEnd('character', end );					
+				J.out( 'character-end:'+end );
+				range.select();
+				
+			}else if( textarea.setSelectionRange ){
+				textarea.focus();
+				textarea.setSelectionRange( start,end );
+			}　
+			
+			document.getElementById('search').value = '';
+	　　   	
+		}　　
+
+		// only ie
+		function findText_ie(){
+			var str = document.getElementById('search').value;
+			var textarea = document.getElementById('txtBox');		
+			
+			if( textarea.createTextRange  ){
+				var range = textarea.createTextRange();
+				if(range.findText(str)){ 
+					range.select();
+		　　　		range.collapse(false);
+					J.out(str);
+		　　 	} else{　　 
+		　　 		J.out("搜索完毕");
+					//搜索到最后的范围还是找不到，则提示搜索完毕，并重新恢复rng最初的范围(否则无法执行新搜索)　　 
+		　　 		range = txtBox.createTextRange();
+		　　 	}
+			}else if( textarea.setSelectionRange ){
+				//J.out("搜索完毕");
+			}　
+			
+	　　   	
+		}　　 
+
+	</script>
+
+</body>
+</html>
